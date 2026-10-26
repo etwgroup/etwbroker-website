@@ -1,0 +1,44 @@
+name: Podgląd ETW Broker — GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'dist/**'
+      - '.github/workflows/deploy-github-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Publikuj podgląd strony
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Pobierz aktualną wersję strony
+        uses: actions/checkout@v6
+
+      - name: Sprawdź plik startowy
+        run: test -f dist/index.html
+
+      - name: Skonfiguruj GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Przygotuj stronę do publikacji
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./dist
+
+      - name: Opublikuj podgląd
+        id: deployment
+        uses: actions/deploy-pages@v4
