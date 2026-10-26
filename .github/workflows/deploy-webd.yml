@@ -1,0 +1,41 @@
+name: Publikacja ETW Broker na WEBD
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'dist/**'
+      - '.github/workflows/deploy-webd.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: webd-production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Publikuj stronę produkcyjną
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Pobierz aktualną wersję strony
+        uses: actions/checkout@v6
+
+      - name: Sprawdź plik startowy
+        run: test -f dist/index.html
+
+      - name: Prześlij stronę na WEBD
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ${{ secrets.WEBD_FTP_SERVER }}
+          username: ${{ secrets.WEBD_FTP_USERNAME }}
+          password: ${{ secrets.WEBD_FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          security: strict
+          local-dir: ./dist/
+          server-dir: ./
