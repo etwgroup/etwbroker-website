@@ -77,8 +77,8 @@
       .nav-cta:hover { background: var(--white); color: var(--red) !important; }
 
       .hero { min-height: 760px; overflow: hidden; position: relative; isolation: isolate; color: var(--white); background: #251417; }
-      .hero::before { content: ""; position: absolute; z-index: 0; inset: 0; background: radial-gradient(circle at 76% 25%, rgba(224,61,78,.64), transparent 23%), radial-gradient(circle at 16% 89%, rgba(136,7,20,.55), transparent 31%), linear-gradient(120deg, #1d1114 9%, #3d1118 55%, #690b17 100%); }
-      .hero::after { content: ""; position: absolute; z-index: 0; inset: 0; opacity: .22; background-image: linear-gradient(90deg, rgba(255,255,255,.11) 1px, transparent 1px), linear-gradient(rgba(255,255,255,.11) 1px, transparent 1px); background-size: 90px 90px; mask-image: linear-gradient(135deg, black, transparent 75%); }
+      .hero::before { content: ""; position: absolute; z-index: 0; inset: -6%; background: radial-gradient(circle at 76% 25%, rgba(224,61,78,.64), transparent 23%), radial-gradient(circle at 16% 89%, rgba(136,7,20,.55), transparent 31%), linear-gradient(120deg, #1d1114 9%, #3d1118 55%, #690b17 100%); animation: hero-ambient 15s ease-in-out infinite alternate; }
+      .hero::after { content: ""; position: absolute; z-index: 0; inset: 0; opacity: .22; background-image: linear-gradient(90deg, rgba(255,255,255,.11) 1px, transparent 1px), linear-gradient(rgba(255,255,255,.11) 1px, transparent 1px); background-size: 90px 90px; mask-image: linear-gradient(135deg, black, transparent 75%); animation: hero-grid 18s linear infinite; }
       .hero-ribbon { display: none; }
       .hero-inner { min-height: 760px; position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, .95fr) minmax(410px, .82fr); align-items: end; gap: 42px; padding: 195px 0 66px; }
       .hero-copy { padding-bottom: 28px; position: relative; z-index: 2; }
@@ -104,6 +104,22 @@
       .portrait-caption b { font: 800 .95rem/1.15 "Manrope", sans-serif; letter-spacing: -.025em; }
       .portrait-caption span { color: #ffbac7; font: 800 .64rem/1.2 "Manrope", sans-serif; letter-spacing: .14em; text-transform: uppercase; }
       .hero-note { position: absolute; right: 0; bottom: 25px; padding: 12px 15px 12px 17px; border-left: 3px solid var(--rose); color: var(--white); background: rgba(23,17,19,.88); box-shadow: 0 12px 24px rgba(0,0,0,.2); font: 800 .7rem/1.1 "Manrope", sans-serif; letter-spacing: .13em; }
+      .hero-copy > .eyebrow, .hero-copy h1, .hero-copy .hero-lead, .hero-copy .actions, .hero-portrait, .portrait-caption, .hero-note { animation-fill-mode: both; }
+      .hero-copy > .eyebrow { animation: hero-copy-in .68s cubic-bezier(.2,.7,.25,1) .16s; }
+      .hero-copy h1 { animation: hero-copy-in .82s cubic-bezier(.2,.7,.25,1) .27s; }
+      .hero-copy .hero-lead { animation: hero-copy-in .72s cubic-bezier(.2,.7,.25,1) .43s; }
+      .hero-copy .actions { animation: hero-copy-in .72s cubic-bezier(.2,.7,.25,1) .56s; }
+      .hero-portrait { animation: hero-portrait-in .95s cubic-bezier(.16,.82,.24,1) .25s; }
+      .portrait-shape { animation: hero-portrait-reveal .9s cubic-bezier(.16,.82,.24,1) .37s both; }
+      .portrait-caption { animation: hero-caption-in .68s cubic-bezier(.2,.7,.25,1) 1.02s; }
+      .hero-note { animation: hero-note-in .65s cubic-bezier(.2,.7,.25,1) 1.18s; }
+      @keyframes hero-ambient { from { transform: translate3d(-1.4%, -1%, 0) scale(1); } to { transform: translate3d(1.6%, 1.2%, 0) scale(1.035); } }
+      @keyframes hero-grid { from { background-position: 0 0, 0 0; } to { background-position: 90px 0, 0 90px; } }
+      @keyframes hero-copy-in { from { opacity: 0; transform: translate3d(0, 24px, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
+      @keyframes hero-portrait-in { from { opacity: 0; transform: translate3d(44px, 34px, 0) scale(.97); } to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); } }
+      @keyframes hero-portrait-reveal { from { clip-path: polygon(10% 0, 10% 0, 10% 100%, 0 100%, 0 15%); } to { clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%, 0 15%); } }
+      @keyframes hero-caption-in { from { opacity: 0; transform: translate3d(-22px, 0, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
+      @keyframes hero-note-in { from { opacity: 0; transform: translate3d(18px, 0, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
 
       .trust { position: relative; background: var(--blush); }
       .approach-top { display: grid; grid-template-columns: minmax(0, .72fr) minmax(520px, 1.28fr); align-items: center; gap: clamp(34px, 6vw, 86px); }
@@ -254,6 +270,7 @@
       @media (prefers-reduced-motion: reduce) {
         *, *::before, *::after { scroll-behavior: auto !important; }
         .reveal { opacity: 1; transform: none; transition: none; }
+        .hero::before, .hero::after, .hero-copy > .eyebrow, .hero-copy h1, .hero-copy .hero-lead, .hero-copy .actions, .hero-portrait, .portrait-shape, .portrait-caption, .hero-note { animation: none !important; }
       }
     </style>
   </head>
